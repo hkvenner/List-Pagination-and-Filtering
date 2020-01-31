@@ -9,18 +9,9 @@ const itemsPerPage = 10;
 
 
 /*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
+   showPage function :hides all of the items in the 
+   list except for the ten to show.
 
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
 ***/
 
 function showPage(list, page) {
@@ -41,7 +32,7 @@ function showPage(list, page) {
 }
 
 /*** 
-   Create the `appendPageLinks function` to generate, append, and add 
+   appendPageLinks function:  generates, appends, and adds 
    functionality to the pagination buttons.
 ***/
 function appendPageLinks(list){
@@ -74,39 +65,63 @@ function appendPageLinks(list){
             a[i].className = '';
          }
          e.target.className = 'active';
-         showPage(studentList, e.target.textContent);
+         showPage(list, e.target.textContent);
       })
    }
    
-   /*
-   <!-- pagination HTML to create dynamically -->
-   <div class="pagination">
-     <ul>
-       <li>
-         <a class="active" href="#">1</a>
-       </li>
-        <li>
-         <a href="#">2</a>
-       </li>
-        <li>
-         <a href="#">3</a>
-       </li>
-        <li>
-         <a href="#">4</a>
-       </li>
-        <li>
-         <a href="#">5</a>
-       </li>
-     </ul>
-   </div>
-   <!-- end pagination -->
-   */
+   
 }
 showPage(studentList, 1);
 appendPageLinks(studentList);
 
+/****
+ * Added a search component
+ ***/
 
+const div = document.createElement("div");
+div.className = "student-search";
 
+const divPageHeader = document.querySelector(".page-header");
+divPageHeader.appendChild(div);
 
+//create input field and place it on page
+const input = document.createElement("input");
+input.placeholder = "Search for students";
+div.appendChild(input);
 
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+//create button and put it on page
+const button = document.createElement("button");
+button.textContent = "Search";
+div.appendChild(button);
+
+//function that displays list items where h3 includes input string
+function displayListItems(){
+   const arr = [];
+   for (let i = 0; i < studentList.length; i++){
+      const h3 = studentList[i].querySelector("h3");
+      // if (h3.textContent.includes(input.value)){
+      //    studentList[i].style.display = "block";
+      // } else {
+      //    studentList[i].style.display = "none";
+      // }
+      studentList[i].style.display = "none";
+
+      if (h3.innerText.includes(input.value)){
+         arr.push(studentList[i]);
+      } 
+   }
+   showPage(arr,1);
+   const page = document.querySelector(".page");
+   const div = document.querySelector(".pagination");
+   page.removeChild(div);
+   appendPageLinks(arr);
+}
+//Added functionality to the search component
+button.addEventListener('click', (e) =>{
+   e.preventDefault();
+   displayListItems();
+});
+
+input.addEventListener("keyup", ()=>{
+   displayListItems();
+});
