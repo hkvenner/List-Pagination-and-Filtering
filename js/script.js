@@ -38,6 +38,7 @@ function showPage(list, page) {
 function appendPageLinks(list){
    const div = document.createElement("div");
    div.className = "pagination";
+
    //the div with the class name "page"
    const pageDiv  = document.querySelector(".page");
    pageDiv.appendChild(div);
@@ -53,8 +54,7 @@ function appendPageLinks(list){
          li.innerHTML = "<a href = '#' class = 'active'>" + i + "</a>";
       } else {
          li.innerHTML = "<a href = '#'>" + i + "</a>";
-      }
-      
+      }      
       ul.appendChild(li);
    }
    const a = document.querySelectorAll(".pagination a");
@@ -71,6 +71,7 @@ function appendPageLinks(list){
    
    
 }
+//initial display of web page
 showPage(studentList, 1);
 appendPageLinks(studentList);
 
@@ -94,23 +95,17 @@ const button = document.createElement("button");
 button.textContent = "Search";
 div.appendChild(button);
 
-//function that displays list items where h3 includes input string
+//function that displays list items if the list item contains the user's input string
 function displayListItems(){
    const arr = [];
    const page = document.querySelector(".page");
-   
+    //removes h4 element that was created if there were no matches found
     if (document.querySelector(".page h4")!== null){
       const h4 = document.querySelector(".page h4");
-      console.log(h4.parentNode);
       page.removeChild(h4);
    }
    for (let i = 0; i < studentList.length; i++){
       const h3 = studentList[i].querySelector("h3");
-      // if (h3.textContent.includes(input.value)){
-      //    studentList[i].style.display = "block";
-      // } else {
-      //    studentList[i].style.display = "none";
-      // }
       studentList[i].style.display = "none";
 
       if (h3.innerText.includes(input.value)){
@@ -125,15 +120,18 @@ function displayListItems(){
       h4.textContent = "There are no matches";
       page.appendChild(h4);
    } 
+   //removes previous pagination div
    page.removeChild(div);
    appendPageLinks(arr);
 }
-//Added functionality to the search component
+//Added functionality to the search component. When the button is clicked the appropriate
+//list items are displayed
 button.addEventListener('click', (e) =>{
    e.preventDefault();
    displayListItems();
 });
 
+//Allows user to filter list in real-time when a letter is typed
 input.addEventListener("keyup", ()=>{
    displayListItems();
 });
