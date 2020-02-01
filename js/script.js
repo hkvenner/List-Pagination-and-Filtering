@@ -97,6 +97,13 @@ div.appendChild(button);
 //function that displays list items where h3 includes input string
 function displayListItems(){
    const arr = [];
+   const page = document.querySelector(".page");
+   
+    if (document.querySelector(".page h4")!== null){
+      const h4 = document.querySelector(".page h4");
+      console.log(h4.parentNode);
+      page.removeChild(h4);
+   }
    for (let i = 0; i < studentList.length; i++){
       const h3 = studentList[i].querySelector("h3");
       // if (h3.textContent.includes(input.value)){
@@ -111,8 +118,13 @@ function displayListItems(){
       } 
    }
    showPage(arr,1);
-   const page = document.querySelector(".page");
+   
    const div = document.querySelector(".pagination");
+   const h4 = document.createElement("h4");
+   if (arr.length === 0 ){      
+      h4.textContent = "There are no matches";
+      page.appendChild(h4);
+   } 
    page.removeChild(div);
    appendPageLinks(arr);
 }
